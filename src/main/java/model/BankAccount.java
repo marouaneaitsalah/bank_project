@@ -1,8 +1,7 @@
 package model;
 
-import java.util.UUID;
 
-public class BankAccount
+public abstract class BankAccount
 {
    private String accountId;
    private double balance;
@@ -70,4 +69,9 @@ public class BankAccount
                 ", status=" + status +
                 '}';
     }
+    public abstract String getType();
+
+   public final void print(){
+       System.out.println("**********************BANK***********************");
+   }
 }

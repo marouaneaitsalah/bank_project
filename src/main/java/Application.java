@@ -1,17 +1,26 @@
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import model.BankAccount;
-import model.BankaccountIMPL;
-import model.IBankAccount;
+import model.CurrentAccount;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class Application
 {
-
-    public static void main(String[] args)
+    public static void main(String[] args) throws JsonProcessingException
     {
-        IBankAccount banks=new BankaccountIMPL();
-        banks.addaccount(new BankAccount("AE160937","MAD",42000));
-        banks.addaccount(new BankAccount("AE160938","MAD",20000));
-        banks.addaccount(new BankAccount("AE160939","MAD",38000));
-        System.out.println(banks.getAllAccount());
-        System.out.println(banks.CheckIfExist("AE160931"));
+        List<BankAccount>bankAccounts=new ArrayList<BankAccount>();
+        bankAccounts.add(new CurrentAccount(42000));
+
+        System.out.println("**************************");
+        for(BankAccount ba : bankAccounts){
+            System.out.println(toJson(ba));
+        }
+    }
+    public static String toJson(Object o)throws JsonProcessingException
+    {
+        ObjectMapper objectMapper=new ObjectMapper();
+        return objectMapper.writerWithDefaultPrettyPrinter().writeValueAsString(o);
     }
 }
