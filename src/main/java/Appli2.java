@@ -1,12 +1,16 @@
 import Business.BankAccountService;
 import Business.BankAccountServiceImpl;
+import Business.Condition;
 import Exceptions.AccountNotFoundException;
+import Utils.DataTransformationUtils;
+import model.AccountStatus;
 import model.BankAccount;
 import model.CurrentAccount;
 import model.SavingAccount;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.function.Consumer;
 
 public class Appli2
 {
@@ -24,12 +28,21 @@ public class Appli2
         System.out.println("*********************************************");
         try
         {
-            BankAccount bankAccount= accountService.getAccountbyId("FE16000938");
-            System.out.println(bankAccount.toString());
-        } catch (AccountNotFoundException e)
+            BankAccount bankAccount= accountService.getAccountbyIdStreams("AB160941");
+            System.out.println(DataTransformationUtils.toJson(bankAccount));
+            System.out.println("********************************************* AFTER Transfer");
+            accountService.transfer("AB160941","TH1609798936",5000);
+            System.out.println(DataTransformationUtils.toJson(bankAccount));
+            System.out.println("********************************************* AFTER Debit");
+            accountService.debit("AB160941",5000);
+            System.out.println(DataTransformationUtils.toJson(bankAccount));
+            System.out.println("********************************************* AFTER Credit");
+            accountService.credit("AB160941",5000);
+            System.out.println(DataTransformationUtils.toJson(bankAccount));
+
+        } catch (Exception e)
         {
             System.out.println(e.getMessage());
-            e.printStackTrace();
         }
 
         System.out.println("*********************************************");
@@ -38,10 +51,31 @@ public class Appli2
         bankAccounts.forEach(System.out::println);
         System.out.println("*********************************************");
         System.out.println("suite du programme");
+       List<BankAccount>bb= accountService.getSavingAccounts();
+        bb.forEach(account -> System.out.println(account));
+        System.out.println("*********************************************");
+        accountService.getCurrentAccounts()
+                .stream()
+                .map(DataTransformationUtils::toJson)
+                .forEach(System.out::println);
+        System.out.println("*********************************************");
+        System.out.println(accountService.TotalBalance());
+
+        System.out.println("*********************************************END");
+
+        List<BankAccount> bankAccounts3 = accountService.searchAccount(acc -> acc.getStatus()
+                .equals(AccountStatus.CREATED));
+
+        bankAccounts3.stream().map(DataTransformationUtils::toJson).forEach(System.out::println);
 
 
+        System.out.println("*********************************************END");
+
+        Consumer<String> consumer=(input)->{
+            System.out.println(input);
+        };
+        consumer.accept("hello");
 
     }
-
-
 }
+
