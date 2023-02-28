@@ -1,5 +1,6 @@
 import Business.BankAccountService;
 import Business.BankAccountServiceImpl;
+import Exceptions.AccountNotFoundException;
 import model.BankAccount;
 import model.CurrentAccount;
 import model.SavingAccount;
@@ -9,7 +10,7 @@ import java.util.List;
 
 public class Appli2
 {
-    public static void main(String[] args)
+    public static void main(String[] args) throws Exception
     {
         BankAccountService accountService=new BankAccountServiceImpl();
 
@@ -23,11 +24,14 @@ public class Appli2
         System.out.println("*********************************************");
         try
         {
-            BankAccount bankAccount= accountService.getAccountbyId("FE160938");
+            BankAccount bankAccount= accountService.getAccountbyId("FE16000938");
             System.out.println(bankAccount.toString());
-        }catch (RuntimeException ex){
-            System.out.println(ex.getMessage());
+        } catch (AccountNotFoundException e)
+        {
+            System.out.println(e.getMessage());
+            e.printStackTrace();
         }
+
         System.out.println("*********************************************");
         List<BankAccount>bankAccounts=accountService.getAllAccount();
         //bankAccounts.forEach(account -> System.out.println(account));

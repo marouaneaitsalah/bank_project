@@ -1,5 +1,6 @@
 package Business;
 
+import Exceptions.AccountNotFoundException;
 import model.BankAccount;
 
 import java.util.ArrayList;
@@ -23,13 +24,13 @@ public class BankAccountServiceImpl implements BankAccountService{
     }
 
     @Override
-    public BankAccount getAccountbyId(String id)
+    public BankAccount getAccountbyId(String id) throws AccountNotFoundException
     {
         for(BankAccount bankAccount : bankAccounts){
             if(bankAccount.getAccountId().equals(id))
                 return bankAccount;
         }
-        throw new RuntimeException("BankAccount not found");
+        throw new AccountNotFoundException("BankAccount not found");
     }
 
     @Override
