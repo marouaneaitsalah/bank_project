@@ -20,23 +20,24 @@ public class Appli2
         accountService.addBankAccount(new CurrentAccount("XE160940","MAD",46000,5000));
         accountService.addBankAccount(new SavingAccount("AB160941","MAD",45000,2.5));
 
-        List<BankAccount>bankAccounts=accountService.getAllAccount();
-/*
-        for (int i = 0; i <bankAccounts.size() ; i++)
+        System.out.println("*********************************************");
+        try
         {
-            System.out.println(bankAccounts.get(i).toString());
+            BankAccount bankAccount= accountService.getAccountbyId("FE160938");
+            System.out.println(bankAccount.toString());
+        }catch (RuntimeException ex){
+            System.out.println(ex.getMessage());
         }
-        */
-       /*
-       for(BankAccount bankAccount:bankAccounts){
-           System.out.println(bankAccount);
-       }
-*/
-       /*
-       bankAccounts.forEach(account -> {
-           System.out.println(account);
-       });
-       */
+        System.out.println("*********************************************");
+        List<BankAccount>bankAccounts=accountService.getAllAccount();
+        //bankAccounts.forEach(account -> System.out.println(account));
+        bankAccounts.forEach(System.out::println);
+        System.out.println("*********************************************");
+        System.out.println("suite du programme");
+
+
 
     }
+
+
 }
